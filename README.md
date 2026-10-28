@@ -4,21 +4,26 @@ SOFT7008 Project 1: an Express/EJS website that creates training session booking
 in MongoDB and displays existing bookings. The form supports one fixed fictional
 card for classroom demonstration. The student approved this interpretation of
 the brief; the lecturer has not confirmed its precise storage requirements.
-Visual verification and submission preparation remain pending.
+Some visual states and final submission preparation remain pending. The
+documented card limitation does not prevent creating the submission package.
 
 ## Run locally
 
-Use Node.js 24, npm 11 and a running MongoDB Community Server 8.0 instance.
-Mongoose 9 requires Node.js 20.19 or newer and supports MongoDB 8.x.
+Tested on Windows 11 with Node.js 24.22.1, npm 11.19.1 and MongoDB Community
+Server 8.0.34. MongoDB is a separate prerequisite and must be running before
+`npm start`. Dependency installation requires internet access; the ZIP does not
+include Node.js, MongoDB or `node_modules` and is not self-contained.
+
+Extract the ZIP and open a terminal in the `training-session-booking` folder
+(the folder containing `package.json`). Then run:
 
 ```powershell
-cd C:\faculdade\project1_SOFT7008
-npm install
+npm ci
 npm start
 ```
 
 Open <http://localhost:3000>. Stop the server with Ctrl+C.
-To install the exact dependency versions in `package-lock.json`, use `npm ci`.
+`npm ci` installs the exact dependency versions in `package-lock.json`.
 
 If port 3000 is busy, choose another port in PowerShell:
 
@@ -136,7 +141,8 @@ card inputs are cleared. The booking list displays no card details.
 The assignment requests card details but does not specify their precise storage.
 This fixed-card approach and the decision to check and discard the security code
 are implementation decisions approved by the student, not instructions confirmed
-by the lecturer. Confirm this interpretation before treating Phase 1 as complete.
+by the lecturer. Lecturer confirmation is unavailable; this remains a documented
+limitation rather than a prerequisite for packaging.
 
 ## Session date and time
 
@@ -190,8 +196,13 @@ fictional number and expiry with no security-code field. Ordinary validation,
 pages, navigation, CSS and 404 passed. Only the test record was removed by its
 returned `_id`; existing booking documents were unchanged.
 
-Visual inspection, including a narrow viewport, remains pending because the
-browser automation runtime failed to start in this environment.
+The student reports a direct browser review of Home, About, Help, the booking
+form and a populated list at desktop size and a 390 px viewport. Navigation and
+layout were usable, with no observed overlap or page-wide horizontal overflow.
+This is user-supplied visual evidence, separate from the HTTP checks above.
+The empty list, validation errors and post-submission confirmation still need
+visual checks. No further visual verification is claimed for the small About
+and Help text adjustment made during packaging.
 
 ## Progress
 
@@ -204,11 +215,13 @@ browser automation runtime failed to start in this environment.
 - [x] Existing booking list and post-save redirect.
 - [x] Fixed fictional card fields using the student-approved representation.
 - [ ] Lecturer confirmation of the card interpretation and storage requirements.
-- [ ] Visual verification on desktop and narrow screens.
+- [x] Main pages, form and populated list visually reviewed at desktop and 390 px, as reported by the student.
+- [ ] Visual checks of the empty list, validation errors and submission confirmation.
 - [ ] GitHub setup.
 - [ ] Final submission preparation.
 
 Editing, deletion, reports and detailed schema validation belong to Phase 2.
 Card handling is limited to the predefined classroom example, without real
-payments or storage of any submitted security code. Lecturer confirmation and
-the unchecked tasks above remain outstanding before final submission.
+payments or storage of any submitted security code. The card interpretation
+remains documented without blocking packaging. GitHub setup is separate from
+the Canvas ZIP submission and is not stated as an assignment requirement.
