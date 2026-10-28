@@ -2,6 +2,7 @@
 
 const http = require('http');
 const app = require('../app');
+const connectDatabase = require('../database');
 
 const port = Number(process.env.PORT || 3000);
 
@@ -28,4 +29,14 @@ server.on('listening', function () {
   console.log('Training Session Booking is running at http://localhost:' + port);
 });
 
-server.listen(port);
+// Start accepting requests only after the database connection succeeds.
+connectDatabase()
+  .then(function () {
+    console.log('Connected to MongoDB.');
+    server.listen(port);
+  })
+  .catch(function () {
+    console.error('Could not connect to MongoDB. The HTTP server was not started.');
+    console.error('Check that MongoDB is running and MONGODB_URI is correct.');
+    process.exit(1);
+  });
