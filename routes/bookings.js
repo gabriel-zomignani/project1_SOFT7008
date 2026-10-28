@@ -45,11 +45,11 @@ router.post('/create', function (req, res, next) {
   if (!values.personName.trim()) {
     errors.push('Enter a person name that is not blank.');
   }
-  if (values.personId.length !== 10) {
-    errors.push('Enter a person ID with exactly 10 characters.');
+  if (!values.personId.trim() || values.personId.length !== 10) {
+    errors.push('Enter a non-blank person ID with exactly 10 characters.');
   }
   if (!sessionDateTime) {
-    errors.push('Enter a valid session date and time in Dublin, including a time that exists when the clocks change.');
+    errors.push('Enter a valid Dublin session date and time.');
   }
   if (typeof body.demoCardNumber !== 'string' || body.demoCardNumber !== '4111111111111111') {
     errors.push('Use the sample demo card number shown below.');

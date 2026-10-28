@@ -29,9 +29,8 @@
 
     <div class="form-field">
       <label for="sessionDateTime">Session date and time (Dublin)</label>
-      <p id="session-time-hint" class="field-hint">Use Europe/Dublin time, even if you are elsewhere.
-        At the autumn clock change, a repeated time means its first occurrence.
-        Times skipped at the spring clock change are not valid.</p>
+      <p id="session-time-hint" class="field-hint">Use Europe/Dublin time.
+        See <a href="/help">Help</a> for clock-change details.</p>
       <input type="datetime-local" id="sessionDateTime" name="sessionDateTime"
         value="<%= values.sessionDateTime %>" step="60" aria-describedby="session-time-hint" required>
     </div>
