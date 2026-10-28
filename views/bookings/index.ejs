@@ -1,0 +1,28 @@
+<%- include('../partials/header') %>
+  <h1><%= title %></h1>
+  <% if (bookingCreated) { %>
+    <p class="notice" role="status">Booking saved.</p>
+  <% } %>
+  <p><a href="/bookings/create">Create a booking</a></p>
+  <p>Session and creation times are shown in Europe/Dublin time, newest bookings first.</p>
+
+  <% if (bookings.length === 0) { %>
+    <p>No bookings have been created yet. Use the link above to create the first booking.</p>
+  <% } else { %>
+    <div class="booking-list">
+      <% bookings.forEach(function (booking) { %>
+        <article class="booking-card">
+          <h2><%= booking.personName %></h2>
+          <dl>
+            <dt>Person ID</dt>
+            <dd><%= booking.personId %></dd>
+            <dt>Session date and time</dt>
+            <dd><time datetime="<%= booking.sessionDateTime.toISOString() %>"><%= formatDate(booking.sessionDateTime) %></time></dd>
+            <dt>Created</dt>
+            <dd><time datetime="<%= booking.createdAt.toISOString() %>"><%= formatDate(booking.createdAt) %></time></dd>
+          </dl>
+        </article>
+      <% }); %>
+    </div>
+  <% } %>
+<%- include('../partials/footer') %>

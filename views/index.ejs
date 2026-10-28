@@ -2,13 +2,19 @@
   <h1>Training session booking</h1>
   <p class="intro">Welcome to the training session booking website.</p>
 
-  <section class="notice" aria-labelledby="availability-heading">
-    <h2 id="availability-heading">Bookings are coming soon</h2>
-    <p>This website is under development. You can explore the About and Help pages now.
-      Creating and viewing bookings will be available in a later milestone.</p>
-  </section>
+  <p>Create a training session booking or view the bookings already saved.</p>
 
   <div class="page-links">
+    <section>
+      <h2>Create a booking</h2>
+      <p>Enter a person's name, ID and the session date and time.</p>
+      <a href="/bookings/create">Create a booking</a>
+    </section>
+    <section>
+      <h2>Existing bookings</h2>
+      <p>View saved bookings and their session details.</p>
+      <a href="/bookings">View bookings</a>
+    </section>
     <section>
       <h2>About this project</h2>
       <p>Learn what the website is for and what is available so far.</p>
@@ -20,4 +26,5 @@
       <a href="/help">Visit the Help page</a>
     </section>
   </div>
+  <p>This project is still under development. Card details and payments are not available.</p>
 <%- include('partials/footer') %>

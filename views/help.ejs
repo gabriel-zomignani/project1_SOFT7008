@@ -6,6 +6,8 @@
     <h2>Finding your way around</h2>
     <ul>
       <li>Home explains the current availability of the website.</li>
+      <li>Create booking opens the form for a new booking.</li>
+      <li>Bookings lists the bookings saved in the database.</li>
       <li>About describes the project and its purpose.</li>
       <li>Help explains how to use the current pages.</li>
     </ul>
@@ -13,8 +15,29 @@
   </section>
 
   <section>
-    <h2>Can I book a session?</h2>
-    <p>Not yet. Creating and viewing bookings will be added in a later milestone.</p>
+    <h2>Creating a booking</h2>
+    <ol>
+      <li>Open <a href="/bookings/create">Create booking</a>.</li>
+      <li>Enter a name, a person ID of exactly 10 characters, and the session date and time.</li>
+      <li>Select Save booking. If a value is invalid, correct the form and submit it again.</li>
+      <li>After saving, the Bookings page opens with a confirmation and the saved booking.</li>
+    </ol>
+    <p>Person IDs can contain letters and can be used for more than one booking.
+      Use fictional details when trying this student project. Do not enter card details.</p>
+  </section>
+
+  <section>
+    <h2>Session times</h2>
+    <p>Enter times in Europe/Dublin time. Bookings are displayed in that same time zone,
+      including seasonal clock changes. A repeated time at the autumn clock change
+      means the first occurrence. A time skipped at the spring clock change is rejected.</p>
+  </section>
+
+  <section>
+    <h2>Viewing bookings</h2>
+    <p>Open <a href="/bookings">Bookings</a> directly or use the navigation.
+      Each booking shows the person's name, ID, session time and creation time.
+      If no bookings exist, the page explains how to create the first one.</p>
   </section>
 
   <section>

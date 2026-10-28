@@ -1,7 +1,8 @@
 # Training Session Booking
 
-SOFT7008 Project 1: basic Express/EJS pages, a MongoDB connection and an initial
-booking model. Booking forms and listing are not implemented yet.
+SOFT7008 Project 1: an Express/EJS website that creates training session bookings
+in MongoDB and displays existing bookings. Card details remain an outstanding
+assignment requirement, so Phase 1 is not complete.
 
 ## Run locally
 
@@ -77,23 +78,32 @@ instead of being queued until a connection appears.
 - `database.js`: connects Mongoose using the environment URI or the local default.
 - `models/booking.js`: defines the initial booking Schema and exports its model.
 - `routes/index.js`: GET routes for Home, About and Help.
+- `routes/bookings.js`: GET form/list routes and the POST that validates and saves.
+- `views/bookings/`: the booking form and list, with escaped EJS output.
 - `views/`: EJS pages, with shared header and footer partials.
 - `public/stylesheets/style.css`: responsive page styles.
 
-`npm start` runs `node ./bin/www`, which imports `app.js` and calls the database
-connection function. Once connected, the HTTP server starts. When a browser
-requests `/about`, Express sends it to the router. The route calls
-`res.render('about', ...)`, and EJS combines the template, title and partials
-into HTML for the browser. A separate request loads the CSS through
-`express.static`. Unmatched requests reach the 404 middleware; errors reach
-the four-parameter error handler.
+`npm start` runs `bin/www`, which selects Europe/Dublin as the process time zone,
+imports `app.js` and connects to MongoDB before starting HTTP. A GET to
+`/bookings/create` renders the form. Its ordinary HTML POST sends named values;
+`express.urlencoded({ extended: false })` makes them available in `req.body`.
+The booking router checks their types and essential values, selects only the
+three expected fields, and calls `Booking.create()`. The model supplies
+`createdAt`. Success redirects with HTTP 303 to GET `/bookings`, which uses
+`Booking.find()` and EJS to display saved records. A saved record ID in the query
+string enables confirmation only when that record is present in the list.
+
+Invalid submissions return HTTP 400 with clear errors and ordinary input values
+preserved. Missing or repeated form fields are rejected. Database failures go
+to the existing error handler without success or redirect. Static CSS is served
+by `express.static`; unmatched routes reach the 404 handler.
 
 The structure follows the supplied Express skeleton, EJS materials, and pizza
 and books examples. Express handles routes, EJS generates HTML, and Mongoose
 provides the database connection, Schema and model. Express 4 keeps the routing
 conventions used in the lectures; EJS 3 uses
 `<%- include('partials/header') %>` for partials. The project uses CommonJS
-(`require` and `module.exports`). Form middleware will be added with booking routes.
+(`require` and `module.exports`). No new dependency was added for the form or list.
 
 The booking Schema requires `personName` (String), `personId` (String of exactly
 10 characters) and `sessionDateTime` (Date). `personId` is not unique and is not
@@ -102,10 +112,19 @@ restricted to digits. There is no future-date or duplicate-session rule.
 calculate a fresh default for every new document. Calling `Date.now()` in the
 Schema definition would calculate it only once when that file is loaded.
 
-The exported `Booking` model is the interface for creating and querying booking
-documents. Defining the model does not save a booking. Card fields are absent,
-so the model is incomplete for final submission until the fictional-card
-representation is settled with the lecturer.
+## Session date and time
+
+The `datetime-local` field represents Europe/Dublin wall time, at minute
+precision. `bin/www` sets `process.env.TZ = 'Europe/Dublin'` for this Node process;
+it does not change the Windows time zone. `new Date(value)` converts that local
+time to an instant stored in MongoDB. For example, 15 July 2026 at 18:30 in
+Dublin is stored as `2026-07-15T17:30:00.000Z`. Winter offsets differ.
+
+The router compares parsed date components with the submitted values to reject
+impossible dates and spring clock-change times that do not exist. At the autumn
+clock change, a repeated time uses its first occurrence. The form explains this
+choice. The list uses `Intl.DateTimeFormat` with `timeZone: 'Europe/Dublin'` and
+an offset label for session and creation times, so it displays Dublin time again.
 
 ## Manual checks
 
@@ -113,32 +132,43 @@ With the server running:
 
 - Visit `/`, `/about` and `/help`; each should return its page.
 - Follow the navigation links and check the current-page highlight.
+- Open `/bookings/create`. Use a fictional name, ID `DEMO123456` and a Dublin
+  session date/time, then select Save booking. The list should show confirmation.
+- Open `/bookings` directly to see saved records, including after restarting.
+- Try another booking with the same person ID; this is allowed.
+- Try a blank name, ID of the wrong length or missing date; correct the errors.
 - Open `/stylesheets/style.css`; it should return CSS.
 - Visit `/missing-page`; it should return an error page with HTTP status 404.
 - Check a narrow browser window: navigation should wrap and content should fit.
 
 Verified on 28 October 2026 with Node.js 24.22.1, npm 11.19.1, Mongoose 9.11.4
-and real MongoDB 8.0.34: required fields, ID lengths, date casting, the creation
-date default, two fictional bookings sharing an alphanumeric ID, and reading
-after reconnecting. Only those test records were deleted, using their returned
-`_id` values. Disconnected model queries reject without buffering. Unreachable
-servers and malformed URIs cause startup to exit with code 1 without HTTP startup
-or credential logging. After real database startup, the three pages and CSS
-returned HTTP 200, navigation markup passed, and an unknown route returned 404.
-No test framework or permanent verification route was added. Visual checks,
-including a narrow viewport, remain pending.
+and real MongoDB 8.0.34: an empty list, direct form/list access, form-style POSTs,
+303 redirects, confirmation, repeated IDs and duplicate sessions, server-owned
+creation dates, ID lengths of 9/10/11, missing/repeated fields, blank names,
+invalid dates, escaped HTML-like names and IDs, Dublin summer/winter clock
+offsets and autumn/spring clock changes. Invalid posts created no records.
+Saved records appeared after an application restart. Only records created by
+these checks were removed, using their returned `_id` values. Disconnected list
+and save requests returned 500 without success. Existing pages, navigation, CSS
+and 404 passed. No test framework or permanent check route was added.
+Visual inspection, including a narrow viewport, remains pending because the
+browser automation runtime failed to start in this environment.
 
 ## Progress
 
 - [x] Express/EJS setup and startup script.
 - [x] Home, About and Help with shared navigation.
 - [x] Responsive CSS and basic 404/server error handling.
-- [ ] Booking form and creation.
+- [x] Booking form, server validation and creation in MongoDB.
 - [x] Initial Mongoose booking model and database connection code.
 - [x] Real MongoDB connection and persistence verification with fictional records.
-- [ ] Existing booking list.
+- [x] Existing booking list and post-save redirect.
+- [ ] Required card details using a representation agreed with the lecturer.
+- [ ] Visual verification on desktop and narrow screens.
 
 Editing, deletion, reports and detailed schema validation belong to Phase 2.
-Card fields are deferred until the demonstration-data requirements are clarified
-with the lecturer. Future work must use fictional card data, without real
-payments or storage of real card security codes.
+The required card fields remain deferred until the fictional-data representation
+is clarified with the lecturer. The current model is incomplete for final
+submission. Future work must use fictional card data, without real payments or
+storage of real card security codes. Forms and listings currently cover the
+person and session details only.

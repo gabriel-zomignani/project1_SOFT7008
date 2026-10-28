@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const indexRouter = require('./routes/index');
+const bookingsRouter = require('./routes/bookings');
 
 const app = express();
 
@@ -8,7 +9,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
 app.use('/', indexRouter);
+app.use('/bookings', bookingsRouter);
 
 // This runs only when no route or static file has answered the request.
 app.use(function (req, res, next) {

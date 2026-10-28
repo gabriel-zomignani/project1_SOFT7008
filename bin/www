@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// datetime-local form values represent Dublin time, including clock changes.
+process.env.TZ = 'Europe/Dublin';
+
 const http = require('http');
 const app = require('../app');
 const connectDatabase = require('../database');

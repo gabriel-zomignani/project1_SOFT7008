@@ -138,6 +138,78 @@ a:focus-visible {
   top: 1rem;
 }
 
+.booking-form {
+  max-width: 36rem;
+}
+
+.form-field {
+  margin: 1.25rem 0;
+}
+
+label, dt {
+  font-weight: bold;
+}
+
+input, button {
+  font: inherit;
+  padding: 0.65rem;
+  border: 1px solid #67798a;
+  border-radius: 4px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  background: #fff;
+}
+
+input:focus-visible, button:focus-visible {
+  outline: 3px solid #d77a00;
+  outline-offset: 3px;
+}
+
+button {
+  color: #fff;
+  background: #163c52;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2c586e;
+}
+
+.field-hint {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-errors {
+  padding: 0.5rem 1rem;
+  border-left: 4px solid #a12b28;
+  background: #fceeed;
+}
+
+.booking-card {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #c9d3dc;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+
+.booking-card h2 {
+  margin-top: 0;
+}
+
+dt {
+  margin-top: 0.75rem;
+}
+
+dd {
+  margin-left: 0;
+}
+
 @media (max-width: 600px) {
   .header-content {
     flex-direction: column;
