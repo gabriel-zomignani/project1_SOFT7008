@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> | Training Session Booking</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="site-name" href="/">Training Session Booking</a>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="/"<% if (currentPage === 'home') { %> aria-current="page"<% } %>>Home</a></li>
+          <li><a href="/about"<% if (currentPage === 'about') { %> aria-current="page"<% } %>>About</a></li>
+          <li><a href="/help"<% if (currentPage === 'help') { %> aria-current="page"<% } %>>Help</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content" class="container" tabindex="-1">
