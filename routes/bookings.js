@@ -51,6 +51,15 @@ router.post('/create', function (req, res, next) {
   if (!sessionDateTime) {
     errors.push('Enter a valid session date and time in Dublin, including a time that exists when the clocks change.');
   }
+  if (typeof body.demoCardNumber !== 'string' || body.demoCardNumber !== '4111111111111111') {
+    errors.push('Use the sample demo card number shown below.');
+  }
+  if (typeof body.demoCardExpiry !== 'string' || body.demoCardExpiry !== '12/2030') {
+    errors.push('Use the sample demo expiry shown below.');
+  }
+  if (typeof body.demoSecurityCode !== 'string' || body.demoSecurityCode !== '123') {
+    errors.push('Use the sample demo security code shown below.');
+  }
 
   if (errors.length > 0) {
     return res.status(400).render('bookings/create', {
@@ -58,11 +67,13 @@ router.post('/create', function (req, res, next) {
     });
   }
 
-  // Select form fields explicitly; createdAt comes from the model default.
+  // Select saved fields explicitly. The checked security code is discarded.
   Booking.create({
     personName: values.personName.trim(),
     personId: values.personId,
-    sessionDateTime
+    sessionDateTime,
+    demoCardNumber: body.demoCardNumber,
+    demoCardExpiry: body.demoCardExpiry
   })
     .then(function (booking) {
       res.redirect(303, '/bookings?created=' + booking._id);

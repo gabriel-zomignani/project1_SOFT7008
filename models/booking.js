@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Card fields are pending clarification; this is not the final booking schema.
+// Only the predefined fictional card is supported; its security code is not stored.
 const bookingSchema = new Schema({
   personName: {
     type: String,
@@ -15,6 +15,14 @@ const bookingSchema = new Schema({
   },
   sessionDateTime: {
     type: Date,
+    required: true
+  },
+  demoCardNumber: {
+    type: String,
+    required: true
+  },
+  demoCardExpiry: {
+    type: String,
     required: true
   },
   createdAt: {

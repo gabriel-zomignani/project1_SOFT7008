@@ -1,8 +1,10 @@
 # Training Session Booking
 
 SOFT7008 Project 1: an Express/EJS website that creates training session bookings
-in MongoDB and displays existing bookings. Card details remain an outstanding
-assignment requirement, so Phase 1 is not complete.
+in MongoDB and displays existing bookings. The form supports one fixed fictional
+card for classroom demonstration. The student approved this interpretation of
+the brief; the lecturer has not confirmed its precise storage requirements.
+Visual verification and submission preparation remain pending.
 
 ## Run locally
 
@@ -87,8 +89,9 @@ instead of being queued until a connection appears.
 imports `app.js` and connects to MongoDB before starting HTTP. A GET to
 `/bookings/create` renders the form. Its ordinary HTML POST sends named values;
 `express.urlencoded({ extended: false })` makes them available in `req.body`.
-The booking router checks their types and essential values, selects only the
-three expected fields, and calls `Booking.create()`. The model supplies
+The booking router checks their types, booking values and exact demo card
+details, selects the saved fields explicitly, and calls `Booking.create()`.
+The security code is checked and discarded. The model supplies
 `createdAt`. Success redirects with HTTP 303 to GET `/bookings`, which uses
 `Booking.find()` and EJS to display saved records. A saved record ID in the query
 string enables confirmation only when that record is present in the list.
@@ -111,6 +114,29 @@ restricted to digits. There is no future-date or duplicate-session rule.
 `createdAt` is a Date with `default: Date.now`: passing the function lets Mongoose
 calculate a fresh default for every new document. Calling `Date.now()` in the
 Schema definition would calculate it only once when that file is loaded.
+The required String fields `demoCardNumber` and `demoCardExpiry` hold the fixed
+fictional details. There is no security-code field. Existing bookings from
+earlier milestones are preserved; these new fields are required for new saves.
+
+## Fixed demo card
+
+Demo only. Use the sample card details shown beside the booking fields:
+
+- Demo card number: `4111111111111111`.
+- Demo expiry: `12/2030`.
+- Demo security code: `123`.
+
+No payment is processed and no real card details are supported. The server
+accepts only these exact text values. It saves the fictional number and expiry,
+but never saves, logs or adds the submitted security code to a URL or an error
+response. Fixed sample instructions remain visible when correcting a form.
+After any validation error, ordinary booking fields are retained and all three
+card inputs are cleared. The booking list displays no card details.
+
+The assignment requests card details but does not specify their precise storage.
+This fixed-card approach and the decision to check and discard the security code
+are implementation decisions approved by the student, not instructions confirmed
+by the lecturer. Confirm this interpretation before treating Phase 1 as complete.
 
 ## Session date and time
 
@@ -133,10 +159,13 @@ With the server running:
 - Visit `/`, `/about` and `/help`; each should return its page.
 - Follow the navigation links and check the current-page highlight.
 - Open `/bookings/create`. Use a fictional name, ID `DEMO123456` and a Dublin
-  session date/time, then select Save booking. The list should show confirmation.
+  session date/time. Enter the three fixed demo card values, then select Save
+  booking. The list should show confirmation.
 - Open `/bookings` directly to see saved records, including after restarting.
 - Try another booking with the same person ID; this is allowed.
 - Try a blank name, ID of the wrong length or missing date; correct the errors.
+- Try missing or incorrect demo card details; no booking should be saved, and
+  all card inputs should be empty on the returned form.
 - Open `/stylesheets/style.css`; it should return CSS.
 - Visit `/missing-page`; it should return an error page with HTTP status 404.
 - Check a narrow browser window: navigation should wrap and content should fit.
@@ -151,6 +180,16 @@ Saved records appeared after an application restart. Only records created by
 these checks were removed, using their returned `_id` values. Disconnected list
 and save requests returned 500 without success. Existing pages, navigation, CSS
 and 404 passed. No test framework or permanent check route was added.
+
+The fixed demo card milestone was also checked through real HTTP POSTs and
+MongoDB: valid details saved and appeared in the list; missing, incorrect,
+non-demo, spaced and repeated card values were rejected without new bookings.
+All three card inputs were blank after errors, ordinary values were retained,
+and submitted card values were not echoed. The raw document contained the
+fictional number and expiry with no security-code field. Ordinary validation,
+pages, navigation, CSS and 404 passed. Only the test record was removed by its
+returned `_id`; existing booking documents were unchanged.
+
 Visual inspection, including a narrow viewport, remains pending because the
 browser automation runtime failed to start in this environment.
 
@@ -163,12 +202,13 @@ browser automation runtime failed to start in this environment.
 - [x] Initial Mongoose booking model and database connection code.
 - [x] Real MongoDB connection and persistence verification with fictional records.
 - [x] Existing booking list and post-save redirect.
-- [ ] Required card details using a representation agreed with the lecturer.
+- [x] Fixed fictional card fields using the student-approved representation.
+- [ ] Lecturer confirmation of the card interpretation and storage requirements.
 - [ ] Visual verification on desktop and narrow screens.
+- [ ] GitHub setup.
+- [ ] Final submission preparation.
 
 Editing, deletion, reports and detailed schema validation belong to Phase 2.
-The required card fields remain deferred until the fictional-data representation
-is clarified with the lecturer. The current model is incomplete for final
-submission. Future work must use fictional card data, without real payments or
-storage of real card security codes. Forms and listings currently cover the
-person and session details only.
+Card handling is limited to the predefined classroom example, without real
+payments or storage of any submitted security code. Lecturer confirmation and
+the unchecked tasks above remain outstanding before final submission.

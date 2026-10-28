@@ -146,6 +146,13 @@ a:focus-visible {
   margin: 1.25rem 0;
 }
 
+.demo-card-fields {
+  min-width: 0;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid #c9d3dc;
+}
+
 label, dt {
   font-weight: bold;
 }

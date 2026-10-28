@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
   <h1><%= title %></h1>
   <p>Enter the person's details and the session date and time. All fields are required.</p>
-  <p>This project does not accept card details or process payments yet.</p>
+  <p class="notice">Demo only. Use the sample card details shown below. No payment is taken.</p>
 
   <% if (errors.length > 0) { %>
     <div class="form-errors" role="alert">
@@ -35,6 +35,31 @@
       <input type="datetime-local" id="sessionDateTime" name="sessionDateTime"
         value="<%= values.sessionDateTime %>" step="60" aria-describedby="session-time-hint" required>
     </div>
+
+    <fieldset class="demo-card-fields">
+      <legend>Demo card details</legend>
+      <div class="form-field">
+        <label for="demoCardNumber">Demo card number</label>
+        <p id="demo-card-number-hint" class="field-hint">Use the sample number: <strong>4111111111111111</strong>.</p>
+        <input type="text" id="demoCardNumber" name="demoCardNumber" autocomplete="off"
+          aria-describedby="demo-card-number-hint" required>
+      </div>
+
+      <div class="form-field">
+        <label for="demoCardExpiry">Demo expiry</label>
+        <p id="demo-card-expiry-hint" class="field-hint">Use the sample expiry: <strong>12/2030</strong>.</p>
+        <input type="text" id="demoCardExpiry" name="demoCardExpiry" autocomplete="off"
+          aria-describedby="demo-card-expiry-hint" required>
+      </div>
+
+      <div class="form-field">
+        <label for="demoSecurityCode">Demo security code</label>
+        <p id="demo-security-code-hint" class="field-hint">Use the sample code: <strong>123</strong>.
+          This is checked but not stored.</p>
+        <input type="password" id="demoSecurityCode" name="demoSecurityCode" autocomplete="off"
+          aria-describedby="demo-security-code-hint" required>
+      </div>
+    </fieldset>
 
     <button type="submit">Save booking</button>
   </form>
